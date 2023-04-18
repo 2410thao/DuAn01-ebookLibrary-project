@@ -4,8 +4,24 @@
  */
 package com.ebook.mainFrame;
 
+import com.ebooks.dao.MuonSachCT01DAO;
+import com.ebooks.dao.NhaXuatBanDAO;
+import com.ebooks.dao.TacGiaDAO;
+import com.ebooks.dao.TheLoaiDAO;
+import com.ebooks.helper.DialogHelper;
+import com.ebooks.helper.MovingForm;
 import com.ebooks.helper.ShareHelper;
+import com.ebooks.model.MuonSachCT01;
+import com.ebooks.model.NhaXuatBan;
+import com.ebooks.model.TacGia;
+import com.ebooks.model.TaiKhoan;
+import com.ebooks.model.TheLoai;
+import java.awt.Color;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -14,10 +30,63 @@ import java.awt.event.KeyEvent;
 public class ManagerBorrowDiaLog extends javax.swing.JDialog {
 
     boolean congTac = false;
+
     public ManagerBorrowDiaLog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setBackground(new Color(0, 0, 0, 0));
+        MovingForm.initMoving(this, pnlMain);
+        fillCboTheloai();
+        fillCboTacGia();
     }
+
+    private void fillCboTheloai() {
+        TheLoaiDAO DAOTL = new TheLoaiDAO();
+        List<TheLoai> ListTL = new ArrayList<TheLoai>();
+        DefaultComboBoxModel model = (DefaultComboBoxModel) cboTheLoai.getModel();
+        model.removeAllElements();
+        ListTL = DAOTL.selectAll();
+        model.addElement("TB000: Tất cả");
+        for (TheLoai theLoai : ListTL) {
+             model.addElement(theLoai.getMaTheLoai()+": " + theLoai.getTenTheLoai());
+        }
+    }
+    
+    private void fillCboTacGia() {
+        TacGiaDAO DAOTG = new TacGiaDAO();
+        List<TacGia> ListTG = new ArrayList<TacGia>();
+        DefaultComboBoxModel model = (DefaultComboBoxModel) cboTacGia.getModel();
+        model.removeAllElements();
+        ListTG = DAOTG.selectAll();
+        model.addElement("TG000: Tất cả");
+        for (TacGia tacGia : ListTG) {
+             model.addElement(tacGia.getMaTacGia()+": " + tacGia.getHoTen());
+        }
+    }
+    
+    
+    
+     private void fillTableMuonSachTB_AB() {
+        List<MuonSachCT01> ListMS01 = new ArrayList<>();
+         MuonSachCT01DAO DAOMS01 = new MuonSachCT01DAO();
+        DefaultTableModel model;
+        model = (DefaultTableModel) tblTheLoai_TacGia.getModel();
+        tblTheLoai_TacGia.setSelectionBackground(new Color(87, 190, 110));
+        model.setRowCount(0);
+        try {
+            ListTK = DAOTK.selectByKeyword(txtTimTaiKhoan.getText());
+            for (TaiKhoan taiKhoan : ListTK) {
+                Object[] row = {};
+                model.addRow(row);
+            }
+        } catch (Exception e) {
+            DialogHelper.alert(this, "Lỗi truy vấn dữ liệu");
+        }
+    }
+    
+    
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -28,27 +97,25 @@ public class ManagerBorrowDiaLog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        panelRound1 = new com.ebooks.Compoment.PanelRound();
+        pnlMain = new com.ebooks.Compoment.PanelRound();
         jLabel5 = new javax.swing.JLabel();
         tabTacGia = new javax.swing.JTabbedPane();
         panelRound2 = new com.ebooks.Compoment.PanelRound();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tblTacGia = new com.ebooks.Compoment.Table();
+        tblTheLoai_TacGia = new com.ebooks.Compoment.Table();
         btnLast = new com.ebooks.Compoment.MyButton();
         btnNext = new com.ebooks.Compoment.MyButton();
         btnPrev = new com.ebooks.Compoment.MyButton();
         btnFirst = new com.ebooks.Compoment.MyButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cboTheLoai = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel2 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        cboTacGia = new javax.swing.JComboBox<>();
         panelRound3 = new com.ebooks.Compoment.PanelRound();
         jScrollPane3 = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        tblTacGia1 = new com.ebooks.Compoment.Table();
         btnFirst1 = new com.ebooks.Compoment.MyButton();
         btnPrev1 = new com.ebooks.Compoment.MyButton();
         btnNext1 = new com.ebooks.Compoment.MyButton();
@@ -56,38 +123,41 @@ public class ManagerBorrowDiaLog extends javax.swing.JDialog {
         panelRound4 = new com.ebooks.Compoment.PanelRound();
         txtTimTacGia = new com.ebooks.Compoment.SearchText();
         btnTimTacGia = new com.ebooks.Compoment.MyButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tblTacGia1 = new com.ebooks.Compoment.Table();
         panelRound5 = new com.ebooks.Compoment.PanelRound();
         txtTenDangNhap = new javax.swing.JTextField();
         lblTenDangNhap = new javax.swing.JLabel();
-        txtTenDangNhap1 = new javax.swing.JTextField();
-        lblTenDangNhap1 = new javax.swing.JLabel();
-        txtNgaySinhTacGia = new javax.swing.JTextField();
-        lblNgaySinh = new javax.swing.JLabel();
+        txtMaSach = new javax.swing.JTextField();
+        lblMaSach = new javax.swing.JLabel();
+        txtNgayMuon = new javax.swing.JTextField();
+        lblNgayMuon = new javax.swing.JLabel();
         Calendar = new com.toedter.calendar.JCalendar();
         btnIconCld1 = new com.ebooks.Compoment.MyButton();
-        txtTenDangNhap2 = new javax.swing.JTextField();
-        lblTenDangNhap2 = new javax.swing.JLabel();
-        txtTenDangNhap3 = new javax.swing.JTextField();
-        lblTenDangNhap3 = new javax.swing.JLabel();
-        txtTenDangNhap4 = new javax.swing.JTextField();
-        lblTenDangNhap4 = new javax.swing.JLabel();
-        myButton1 = new com.ebooks.Compoment.MyButton();
-        myButton2 = new com.ebooks.Compoment.MyButton();
-        myButton3 = new com.ebooks.Compoment.MyButton();
+        txtTenSach = new javax.swing.JTextField();
+        lblTenSach = new javax.swing.JLabel();
+        txtMaMuonSach = new javax.swing.JTextField();
+        lblMaMuonSach = new javax.swing.JLabel();
+        txtMaMuonSachChiTiet = new javax.swing.JTextField();
+        lblMaMuonSachChiTiet = new javax.swing.JLabel();
+        btnCapNhat = new com.ebooks.Compoment.MyButton();
+        btnResetForm = new com.ebooks.Compoment.MyButton();
+        btnHuyMuon = new com.ebooks.Compoment.MyButton();
         pnlExit1 = new com.ebooks.Compoment.PanelRound();
         lblExit1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setUndecorated(true);
 
-        panelRound1.setBackground(new java.awt.Color(254, 254, 254));
-        panelRound1.setRoundBottomLeft(20);
-        panelRound1.setRoundBottomRight(20);
-        panelRound1.setRoundTopLeft(20);
-        panelRound1.setRoundTopRight(20);
-        panelRound1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        pnlMain.setBackground(new java.awt.Color(254, 254, 254));
+        pnlMain.setRoundBottomLeft(20);
+        pnlMain.setRoundBottomRight(20);
+        pnlMain.setRoundTopLeft(20);
+        pnlMain.setRoundTopRight(20);
+        pnlMain.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/ebooks/Image/nerds-removebg-preview.png"))); // NOI18N
-        panelRound1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+        pnlMain.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
         tabTacGia.setBackground(new java.awt.Color(255, 255, 255));
         tabTacGia.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -100,33 +170,33 @@ public class ManagerBorrowDiaLog extends javax.swing.JDialog {
         panelRound2.setBackground(new java.awt.Color(255, 255, 255));
         panelRound2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        tblTacGia.setModel(new javax.swing.table.DefaultTableModel(
+        tblTheLoai_TacGia.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Mã tác giả", "Họ tên", "Ngày sinh", "Giới tính", "Mô tả"
+                "Mã mượn chi tiết", "Tên sách", "Tên đăng nhập", "Thời gian mượn", "Thể loại", "Tác giả"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, true, false
+                false, false, false, false, true, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        tblTacGia.setSelectionBackground(new java.awt.Color(87, 190, 110));
-        tblTacGia.getTableHeader().setReorderingAllowed(false);
-        tblTacGia.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblTheLoai_TacGia.setSelectionBackground(new java.awt.Color(87, 190, 110));
+        tblTheLoai_TacGia.getTableHeader().setReorderingAllowed(false);
+        tblTheLoai_TacGia.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblTacGiaMouseClicked(evt);
+                tblTheLoai_TacGiaMouseClicked(evt);
             }
         });
-        jScrollPane2.setViewportView(tblTacGia);
+        jScrollPane2.setViewportView(tblTheLoai_TacGia);
 
         panelRound2.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 850, 290));
 
@@ -174,8 +244,12 @@ public class ManagerBorrowDiaLog extends javax.swing.JDialog {
         });
         panelRound2.add(btnFirst, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 380, 60, 40));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        panelRound2.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 10, 270, 40));
+        cboTheLoai.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                cboTheLoaiPropertyChange(evt);
+            }
+        });
+        panelRound2.add(cboTheLoai, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 10, 270, 40));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel1.setText("Theo thể loại");
@@ -188,8 +262,12 @@ public class ManagerBorrowDiaLog extends javax.swing.JDialog {
         jLabel2.setText("Theo tác giả");
         panelRound2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 20, -1, 20));
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        panelRound2.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 10, 270, 40));
+        cboTacGia.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                cboTacGiaPropertyChange(evt);
+            }
+        });
+        panelRound2.add(cboTacGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 10, 270, 40));
 
         tabTacGia.addTab("Phân loại", panelRound2);
 
@@ -202,36 +280,6 @@ public class ManagerBorrowDiaLog extends javax.swing.JDialog {
 
         jPanel2.setBackground(new java.awt.Color(254, 254, 254));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        tblTacGia1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "Mã tác giả", "Họ tên", "Ngày sinh", "Giới tính", "Mô tả"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, true, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        tblTacGia1.setSelectionBackground(new java.awt.Color(87, 190, 110));
-        tblTacGia1.getTableHeader().setReorderingAllowed(false);
-        tblTacGia1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblTacGia1MouseClicked(evt);
-            }
-        });
-        jScrollPane4.setViewportView(tblTacGia1);
-
-        jPanel2.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 850, 290));
 
         btnFirst1.setBackground(new java.awt.Color(145, 227, 168));
         btnFirst1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/ebooks/Icon/angle-double-small-left.png"))); // NOI18N
@@ -312,6 +360,36 @@ public class ManagerBorrowDiaLog extends javax.swing.JDialog {
 
         jPanel2.add(panelRound4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 360, 40));
 
+        tblTacGia1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Mã mượn chi tiết", "Tên sách", "Tên đăng nhập", "Thời gian mượn"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblTacGia1.setSelectionBackground(new java.awt.Color(87, 190, 110));
+        tblTacGia1.getTableHeader().setReorderingAllowed(false);
+        tblTacGia1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblTacGia1MouseClicked(evt);
+            }
+        });
+        jScrollPane4.setViewportView(tblTacGia1);
+
+        jPanel2.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 850, 290));
+
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 870, 530));
 
         jScrollPane3.setViewportView(jPanel1);
@@ -329,30 +407,30 @@ public class ManagerBorrowDiaLog extends javax.swing.JDialog {
                 txtTenDangNhapKeyPressed(evt);
             }
         });
-        panelRound5.add(txtTenDangNhap, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 260, 370, 40));
+        panelRound5.add(txtTenDangNhap, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 260, 370, 40));
 
         lblTenDangNhap.setFont(new java.awt.Font("Inter Medium", 0, 14)); // NOI18N
         lblTenDangNhap.setText("Tài khoản mượn");
-        panelRound5.add(lblTenDangNhap, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, -1, -1));
+        panelRound5.add(lblTenDangNhap, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 230, -1, -1));
 
-        txtTenDangNhap1.setBackground(new java.awt.Color(222, 247, 227));
-        txtTenDangNhap1.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtMaSach.setBackground(new java.awt.Color(222, 247, 227));
+        txtMaSach.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtTenDangNhap1KeyPressed(evt);
+                txtMaSachKeyPressed(evt);
             }
         });
-        panelRound5.add(txtTenDangNhap1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, 370, 40));
+        panelRound5.add(txtMaSach, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, 370, 40));
 
-        lblTenDangNhap1.setFont(new java.awt.Font("Inter Medium", 0, 14)); // NOI18N
-        lblTenDangNhap1.setText("Mã sách mượn");
-        panelRound5.add(lblTenDangNhap1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, -1, -1));
+        lblMaSach.setFont(new java.awt.Font("Inter Medium", 0, 14)); // NOI18N
+        lblMaSach.setText("Mã sách mượn");
+        panelRound5.add(lblMaSach, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, -1, -1));
 
-        txtNgaySinhTacGia.setBackground(new java.awt.Color(222, 247, 227));
-        panelRound5.add(txtNgaySinhTacGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 260, 320, 40));
+        txtNgayMuon.setBackground(new java.awt.Color(222, 247, 227));
+        panelRound5.add(txtNgayMuon, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 260, 320, 40));
 
-        lblNgaySinh.setFont(new java.awt.Font("Inter Medium", 0, 14)); // NOI18N
-        lblNgaySinh.setText("Ngày mượn");
-        panelRound5.add(lblNgaySinh, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 230, -1, -1));
+        lblNgayMuon.setFont(new java.awt.Font("Inter Medium", 0, 14)); // NOI18N
+        lblNgayMuon.setText("Ngày mượn");
+        panelRound5.add(lblNgayMuon, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, -1, -1));
 
         Calendar.setBackground(new java.awt.Color(201, 235, 201));
         Calendar.setDecorationBackgroundColor(new java.awt.Color(153, 255, 153));
@@ -363,7 +441,7 @@ public class ManagerBorrowDiaLog extends javax.swing.JDialog {
                 CalendarPropertyChange(evt);
             }
         });
-        panelRound5.add(Calendar, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 300, -1, -1));
+        panelRound5.add(Calendar, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 300, -1, -1));
 
         btnIconCld1.setBackground(new java.awt.Color(87, 190, 110));
         btnIconCld1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/ebooks/Icon/calendar.png"))); // NOI18N
@@ -374,77 +452,82 @@ public class ManagerBorrowDiaLog extends javax.swing.JDialog {
                 btnIconCld1MouseClicked(evt);
             }
         });
-        panelRound5.add(btnIconCld1, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 260, 50, 40));
+        panelRound5.add(btnIconCld1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 260, 50, 40));
 
-        txtTenDangNhap2.setBackground(new java.awt.Color(222, 247, 227));
-        txtTenDangNhap2.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtTenSach.setBackground(new java.awt.Color(222, 247, 227));
+        txtTenSach.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtTenDangNhap2KeyPressed(evt);
+                txtTenSachKeyPressed(evt);
             }
         });
-        panelRound5.add(txtTenDangNhap2, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 160, 370, 40));
+        panelRound5.add(txtTenSach, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 160, 370, 40));
 
-        lblTenDangNhap2.setFont(new java.awt.Font("Inter Medium", 0, 14)); // NOI18N
-        lblTenDangNhap2.setText("Tên sách mượn");
-        panelRound5.add(lblTenDangNhap2, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 130, -1, -1));
+        lblTenSach.setFont(new java.awt.Font("Inter Medium", 0, 14)); // NOI18N
+        lblTenSach.setText("Tên sách mượn");
+        panelRound5.add(lblTenSach, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 130, -1, -1));
 
-        txtTenDangNhap3.setBackground(new java.awt.Color(222, 247, 227));
-        txtTenDangNhap3.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtMaMuonSach.setBackground(new java.awt.Color(222, 247, 227));
+        txtMaMuonSach.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtTenDangNhap3KeyPressed(evt);
+                txtMaMuonSachKeyPressed(evt);
             }
         });
-        panelRound5.add(txtTenDangNhap3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 370, 40));
+        panelRound5.add(txtMaMuonSach, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 60, 370, 40));
 
-        lblTenDangNhap3.setFont(new java.awt.Font("Inter Medium", 0, 14)); // NOI18N
-        lblTenDangNhap3.setText("Mã mượn sách");
-        panelRound5.add(lblTenDangNhap3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, -1));
+        lblMaMuonSach.setFont(new java.awt.Font("Inter Medium", 0, 14)); // NOI18N
+        lblMaMuonSach.setText("Mã mượn sách");
+        panelRound5.add(lblMaMuonSach, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 30, -1, -1));
 
-        txtTenDangNhap4.setBackground(new java.awt.Color(222, 247, 227));
-        txtTenDangNhap4.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtMaMuonSachChiTiet.setBackground(new java.awt.Color(222, 247, 227));
+        txtMaMuonSachChiTiet.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtTenDangNhap4KeyPressed(evt);
+                txtMaMuonSachChiTietKeyPressed(evt);
             }
         });
-        panelRound5.add(txtTenDangNhap4, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 60, 370, 40));
+        panelRound5.add(txtMaMuonSachChiTiet, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 370, 40));
 
-        lblTenDangNhap4.setFont(new java.awt.Font("Inter Medium", 0, 14)); // NOI18N
-        lblTenDangNhap4.setText("Mã mượn sách chi tiết");
-        panelRound5.add(lblTenDangNhap4, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 30, -1, -1));
+        lblMaMuonSachChiTiet.setFont(new java.awt.Font("Inter Medium", 0, 14)); // NOI18N
+        lblMaMuonSachChiTiet.setText("Mã mượn sách chi tiết");
+        panelRound5.add(lblMaMuonSachChiTiet, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, -1));
 
-        myButton1.setBackground(new java.awt.Color(87, 190, 110));
-        myButton1.setBoderColor(new java.awt.Color(87, 190, 110));
-        myButton1.setRadius(15);
-        myButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnCapNhat.setBackground(new java.awt.Color(87, 190, 110));
+        btnCapNhat.setForeground(new java.awt.Color(255, 255, 255));
+        btnCapNhat.setText("Cập nhật");
+        btnCapNhat.setBoderColor(new java.awt.Color(87, 190, 110));
+        btnCapNhat.setFont(new java.awt.Font("Inter SemiBold", 0, 14)); // NOI18N
+        btnCapNhat.setRadius(10);
+        btnCapNhat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                myButton1ActionPerformed(evt);
+                btnCapNhatActionPerformed(evt);
             }
         });
-        panelRound5.add(myButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 350, 120, 45));
+        panelRound5.add(btnCapNhat, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 350, 120, 45));
 
-        myButton2.setBackground(new java.awt.Color(87, 190, 110));
-        myButton2.setBoderColor(new java.awt.Color(87, 190, 110));
-        myButton2.setRadius(15);
-        myButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnResetForm.setBackground(new java.awt.Color(87, 190, 110));
+        btnResetForm.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/ebooks/Icon/refresh (1).png"))); // NOI18N
+        btnResetForm.setBoderColor(new java.awt.Color(87, 190, 110));
+        btnResetForm.setRadius(10);
+        btnResetForm.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                myButton2ActionPerformed(evt);
+                btnResetFormActionPerformed(evt);
             }
         });
-        panelRound5.add(myButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 350, 45, 45));
+        panelRound5.add(btnResetForm, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 350, 45, 45));
 
-        myButton3.setBackground(new java.awt.Color(255, 102, 102));
-        myButton3.setBoderColor(new java.awt.Color(255, 102, 102));
-        myButton3.setRadius(15);
-        myButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnHuyMuon.setBackground(new java.awt.Color(255, 102, 102));
+        btnHuyMuon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/ebooks/Icon/circle-cross.png"))); // NOI18N
+        btnHuyMuon.setBoderColor(new java.awt.Color(255, 102, 102));
+        btnHuyMuon.setRadius(10);
+        btnHuyMuon.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                myButton3ActionPerformed(evt);
+                btnHuyMuonActionPerformed(evt);
             }
         });
-        panelRound5.add(myButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 350, 45, 45));
+        panelRound5.add(btnHuyMuon, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 350, 45, 45));
 
         tabTacGia.addTab("Thông tin chi tiết", panelRound5);
 
-        panelRound1.add(tabTacGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 870, 460));
+        pnlMain.add(tabTacGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 870, 460));
 
         pnlExit1.setBackground(new java.awt.Color(253, 127, 127));
         pnlExit1.setRoundBottomLeft(20);
@@ -478,7 +561,7 @@ public class ManagerBorrowDiaLog extends javax.swing.JDialog {
         });
         pnlExit1.add(lblExit1, new java.awt.GridBagConstraints());
 
-        panelRound1.add(pnlExit1, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 0, 50, 50));
+        pnlMain.add(pnlExit1, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 0, 50, 50));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -488,7 +571,7 @@ public class ManagerBorrowDiaLog extends javax.swing.JDialog {
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(panelRound1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pnlMain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
@@ -497,20 +580,19 @@ public class ManagerBorrowDiaLog extends javax.swing.JDialog {
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(panelRound1, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pnlMain, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tblTacGiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTacGiaMouseClicked
+    private void tblTheLoai_TacGiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTheLoai_TacGiaMouseClicked
         if (evt.getClickCount() == 2) {
-            
-         
-          
+
         }
-    }//GEN-LAST:event_tblTacGiaMouseClicked
+    }//GEN-LAST:event_tblTheLoai_TacGiaMouseClicked
 
     private void btnLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastActionPerformed
 //        int index = tblTacGia.getSelectedRow();
@@ -533,7 +615,7 @@ public class ManagerBorrowDiaLog extends javax.swing.JDialog {
     }//GEN-LAST:event_btnFirstActionPerformed
 
     private void tabTacGiaStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabTacGiaStateChanged
-       
+
     }//GEN-LAST:event_tabTacGiaStateChanged
 
     private void lblExit1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblExit1MouseClicked
@@ -562,10 +644,6 @@ public class ManagerBorrowDiaLog extends javax.swing.JDialog {
         System.exit(0);
     }//GEN-LAST:event_pnlExit1MousePressed
 
-    private void tblTacGia1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTacGia1MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tblTacGia1MouseClicked
-
     private void btnFirst1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirst1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnFirst1ActionPerformed
@@ -584,12 +662,12 @@ public class ManagerBorrowDiaLog extends javax.swing.JDialog {
 
     private void txtTimTacGiaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimTacGiaKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-           
+
         }
     }//GEN-LAST:event_txtTimTacGiaKeyPressed
 
     private void btnTimTacGiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimTacGiaActionPerformed
-     
+
     }//GEN-LAST:event_btnTimTacGiaActionPerformed
 
     private void txtTimTacGiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTimTacGiaActionPerformed
@@ -597,15 +675,15 @@ public class ManagerBorrowDiaLog extends javax.swing.JDialog {
     }//GEN-LAST:event_txtTimTacGiaActionPerformed
 
     private void txtTenDangNhapKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTenDangNhapKeyPressed
-       
+
     }//GEN-LAST:event_txtTenDangNhapKeyPressed
 
-    private void txtTenDangNhap1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTenDangNhap1KeyPressed
+    private void txtMaSachKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaSachKeyPressed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtTenDangNhap1KeyPressed
+    }//GEN-LAST:event_txtMaSachKeyPressed
 
     private void CalendarPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_CalendarPropertyChange
-        txtNgaySinhTacGia.setText(String.valueOf(ShareHelper.formats.format(Calendar.getDate())));
+        txtNgayMuon.setText(String.valueOf(ShareHelper.formats.format(Calendar.getDate())));
     }//GEN-LAST:event_CalendarPropertyChange
 
     private void btnIconCld1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIconCld1MouseClicked
@@ -613,29 +691,41 @@ public class ManagerBorrowDiaLog extends javax.swing.JDialog {
         congTac = !congTac;
     }//GEN-LAST:event_btnIconCld1MouseClicked
 
-    private void txtTenDangNhap2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTenDangNhap2KeyPressed
+    private void txtTenSachKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTenSachKeyPressed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtTenDangNhap2KeyPressed
+    }//GEN-LAST:event_txtTenSachKeyPressed
 
-    private void txtTenDangNhap3KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTenDangNhap3KeyPressed
+    private void txtMaMuonSachKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaMuonSachKeyPressed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtTenDangNhap3KeyPressed
+    }//GEN-LAST:event_txtMaMuonSachKeyPressed
 
-    private void txtTenDangNhap4KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTenDangNhap4KeyPressed
+    private void txtMaMuonSachChiTietKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaMuonSachChiTietKeyPressed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtTenDangNhap4KeyPressed
+    }//GEN-LAST:event_txtMaMuonSachChiTietKeyPressed
 
-    private void myButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton1ActionPerformed
+    private void btnCapNhatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCapNhatActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_myButton1ActionPerformed
+    }//GEN-LAST:event_btnCapNhatActionPerformed
 
-    private void myButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton2ActionPerformed
+    private void btnResetFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetFormActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_myButton2ActionPerformed
+    }//GEN-LAST:event_btnResetFormActionPerformed
 
-    private void myButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton3ActionPerformed
+    private void btnHuyMuonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyMuonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_myButton3ActionPerformed
+    }//GEN-LAST:event_btnHuyMuonActionPerformed
+
+    private void tblTacGia1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTacGia1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tblTacGia1MouseClicked
+
+    private void cboTheLoaiPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_cboTheLoaiPropertyChange
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cboTheLoaiPropertyChange
+
+    private void cboTacGiaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_cboTacGiaPropertyChange
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cboTacGiaPropertyChange
 
     /**
      * @param args the command line arguments
@@ -648,7 +738,7 @@ public class ManagerBorrowDiaLog extends javax.swing.JDialog {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -681,8 +771,10 @@ public class ManagerBorrowDiaLog extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.toedter.calendar.JCalendar Calendar;
+    private com.ebooks.Compoment.MyButton btnCapNhat;
     private com.ebooks.Compoment.MyButton btnFirst;
     private com.ebooks.Compoment.MyButton btnFirst1;
+    private com.ebooks.Compoment.MyButton btnHuyMuon;
     private com.ebooks.Compoment.MyButton btnIconCld1;
     private com.ebooks.Compoment.MyButton btnLast;
     private com.ebooks.Compoment.MyButton btnLast1;
@@ -690,9 +782,10 @@ public class ManagerBorrowDiaLog extends javax.swing.JDialog {
     private com.ebooks.Compoment.MyButton btnNext1;
     private com.ebooks.Compoment.MyButton btnPrev;
     private com.ebooks.Compoment.MyButton btnPrev1;
+    private com.ebooks.Compoment.MyButton btnResetForm;
     private com.ebooks.Compoment.MyButton btnTimTacGia;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JComboBox<String> cboTacGia;
+    private javax.swing.JComboBox<String> cboTheLoai;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
@@ -703,30 +796,27 @@ public class ManagerBorrowDiaLog extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lblExit1;
-    private javax.swing.JLabel lblNgaySinh;
+    private javax.swing.JLabel lblMaMuonSach;
+    private javax.swing.JLabel lblMaMuonSachChiTiet;
+    private javax.swing.JLabel lblMaSach;
+    private javax.swing.JLabel lblNgayMuon;
     private javax.swing.JLabel lblTenDangNhap;
-    private javax.swing.JLabel lblTenDangNhap1;
-    private javax.swing.JLabel lblTenDangNhap2;
-    private javax.swing.JLabel lblTenDangNhap3;
-    private javax.swing.JLabel lblTenDangNhap4;
-    private com.ebooks.Compoment.MyButton myButton1;
-    private com.ebooks.Compoment.MyButton myButton2;
-    private com.ebooks.Compoment.MyButton myButton3;
-    private com.ebooks.Compoment.PanelRound panelRound1;
+    private javax.swing.JLabel lblTenSach;
     private com.ebooks.Compoment.PanelRound panelRound2;
     private com.ebooks.Compoment.PanelRound panelRound3;
     private com.ebooks.Compoment.PanelRound panelRound4;
     private com.ebooks.Compoment.PanelRound panelRound5;
     private com.ebooks.Compoment.PanelRound pnlExit1;
+    private com.ebooks.Compoment.PanelRound pnlMain;
     private javax.swing.JTabbedPane tabTacGia;
-    private com.ebooks.Compoment.Table tblTacGia;
     private com.ebooks.Compoment.Table tblTacGia1;
-    private javax.swing.JTextField txtNgaySinhTacGia;
+    private com.ebooks.Compoment.Table tblTheLoai_TacGia;
+    private javax.swing.JTextField txtMaMuonSach;
+    private javax.swing.JTextField txtMaMuonSachChiTiet;
+    private javax.swing.JTextField txtMaSach;
+    private javax.swing.JTextField txtNgayMuon;
     private javax.swing.JTextField txtTenDangNhap;
-    private javax.swing.JTextField txtTenDangNhap1;
-    private javax.swing.JTextField txtTenDangNhap2;
-    private javax.swing.JTextField txtTenDangNhap3;
-    private javax.swing.JTextField txtTenDangNhap4;
+    private javax.swing.JTextField txtTenSach;
     private com.ebooks.Compoment.SearchText txtTimTacGia;
     // End of variables declaration//GEN-END:variables
 }

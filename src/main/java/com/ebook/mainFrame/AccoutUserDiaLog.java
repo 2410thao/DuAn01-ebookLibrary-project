@@ -36,7 +36,7 @@ public class AccoutUserDiaLog extends javax.swing.JDialog {
             return false;
         } else if (!UtilityHelper.checkNullPass(lblXacNhan, txtXacNhanMatKhau)) {
             return false;
-        }else if(!txtMatKhauMoi.getPassword().toString().matches("((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%!]).{6,20})")){
+        }else if(!String.valueOf(txtMatKhauMoi.getPassword()).matches("((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%!]).{6,20})")){
             DialogHelper.alert(this, "Mật khẩu độ tài từ 6 đến 12 ký tự và phải chứa ít nhất 1 ký tự số từ, ký tự chữ hoa, tự chữ thường, ký tự đặc biệt");
             return false;
         }

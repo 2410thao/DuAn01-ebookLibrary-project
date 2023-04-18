@@ -39,6 +39,7 @@ public class SignUpDiaLog extends javax.swing.JDialog {
         initComponents();
         setBackground(new Color(0, 0, 0, 0));
         MovingForm.initMoving(this, pnlMainDialog);
+        
     }
 
     private boolean checkForm() {
@@ -51,7 +52,7 @@ public class SignUpDiaLog extends javax.swing.JDialog {
         } else if (!txtTenDangNhap.getText().matches("[a-z0-9_-]{6,12}$")) {
             DialogHelper.alert(this, "Tên đăng nhập có độ tài từ 6 đến 12 ký tự, không có khoảng trắng, ký tự hoa và không dấu");
             return false;
-        } else if (!txtMatKhau.getPassword().toString().matches("((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%!]).{6,20})")) {
+        } else if (!String.valueOf(txtMatKhau.getPassword()).matches("((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%!]).{6,20})")) {
             DialogHelper.alert(this, "Mật khẩu độ tài từ 6 đến 12 ký tự và phải chứa ít nhất 1 ký tự số từ, ký tự chữ hoa, tự chữ thường, ký tự đặc biệt");
             return false;
         }
@@ -228,6 +229,7 @@ public class SignUpDiaLog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnTaoTaiKhoanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaoTaiKhoanActionPerformed
+
         if (checkForm()) {
             TaiKhoan taiKhoan = new TaiKhoan();
             taiKhoan.setTenDangNhap(txtTenDangNhap.getText());
